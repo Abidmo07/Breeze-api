@@ -9,4 +9,9 @@ class Event extends Model
     protected $fillable = [
         "title","description","start_time","end_time","capacity","location","image_url",
     ] ;
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
+    }
+    
 }

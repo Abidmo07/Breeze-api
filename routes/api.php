@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\EventController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -14,9 +15,17 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
+    //events
     Route::get('/events', [EventController::class, 'index'])->name('events.index');
       Route::get('/events/search', [EventController::class, 'search'])->name('events.search');
     Route::get('/events/{event}', [EventController::class, 'show'])->name('events.show');
+    // bookings
+    Route::post('/book', [BookingController::class, 'store'])->name('bookings.store');
+    Route::get("/bookings",[BookingController::class,"index"])->name("bookings.index");
+    Route::get("/bookings/{booking}",[BookingController::class,"show"])->name("bookings.show");
+    Route::delete("/cancel/{booking}",[BookingController::class,"cancel"])->name("bookings.destroy");    
+    Route::put("/bookings/{booking}",[BookingController::class,"update"])->name("bookings.update");
+
   
     Route::middleware(['role:admin'])->group(function () {
         Route::post('/event', [EventController::class, 'store'])->name('events.store');
